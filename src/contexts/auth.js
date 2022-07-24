@@ -2,6 +2,9 @@
 import { useState, createContext, useEffect } from 'react';
 import firebase from '../services/firebaseConnection';
 
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 export const AuthContext = createContext({});
 
 function AuthProvider({ children }){

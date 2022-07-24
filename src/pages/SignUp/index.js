@@ -14,15 +14,17 @@ function SignUp() {
   const [ password, setPassword ] = useState('');
   const [ nome, setNome ] = useState('');
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
   function handleSubmit(e){
     e.preventDefault();
 
     if(nome !== '' && email !== '' && password !== ''){
       signUp(email, password, nome);
-      toast.success("Conta criada com sucesso!")
+      return toast.success("Conta criada com sucesso!");
     }
+
+    toast.warn("Preencha todos os campos!")
   }
 
   return (
@@ -37,7 +39,7 @@ function SignUp() {
           <input type="text" placeholder="seu nome" value={nome} onChange={ (e) => setNome(e.target.value)} />
           <input type="text" placeholder="email@email.com" value={email} onChange={ (e) => setEmail(e.target.value) }/>
           <input type="password" placeholder="*******" value={password} onChange={ (e) => setPassword(e.target.value) } />
-          <button type="submit">Cadastrar</button>
+          <button type="submit">{loadingAuth ? 'Carregando...' : 'Cadastrar'}</button>
         </form>  
 
         <Link to="/">Já tem uma conta? Entre</Link>

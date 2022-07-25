@@ -4,6 +4,7 @@ import { AuthContext } from '../../contexts/auth';
 import Header from '../../components/Header';
 
 export default function Dashboard(){
+  // eslint-disable-next-line no-unused-vars
   const { signOut } = useContext(AuthContext)
 
   return (

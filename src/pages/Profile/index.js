@@ -5,9 +5,6 @@ import Header from '../../components/Header';
 import Title from '../../components/Title';
 import avatar from '../../assets/avatar.png';
 
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-
 import firebase from '../../services/firebaseConnection';
 import { AuthContext } from '../../contexts/auth';
 
@@ -34,7 +31,7 @@ export default function Profile(){
         setAvatarUrl(URL.createObjectURL(e.target.files[0]))
 
       }else{
-        toast.warn("Envie uma imagem do tipo PNG ou JPG")
+        alert('Envie uma imagem do tipo PNG ou JPEG');
         setImageAvatar(null);
         return null;
       }
@@ -105,7 +102,6 @@ export default function Profile(){
       handleUpload();
     }
 
-    toast.success("Perfil atualizado com sucesso!!")
   }
 
   return(

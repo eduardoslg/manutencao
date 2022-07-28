@@ -9,6 +9,7 @@ import Dashboard from '../pages/Dashboard';
 import Profile from '../pages/Profile';
 import Customers from '../pages/Customers';
 import New from '../pages/New';
+import Teste from '../pages/Teste';
 
 export default function Routes(){
   return(
@@ -21,6 +22,8 @@ export default function Routes(){
       <Route exact path="/customers" component={Customers} isPrivate />
       <Route exact path="/new" component={New} isPrivate />
       <Route exact path="/new/:id" component={New} isPrivate />
+
+      <Route exact path="/teste" component={Teste} isPrivate />
       
     </Switch>
   )

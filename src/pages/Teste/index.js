@@ -76,7 +76,7 @@ export default function Teste(){
     .then((snapshot) => {
       updateState(snapshot)
       const isCollectionEmpty = snapshot.size === 0;
-
+      console.log(snapshot)
       if(!isCollectionEmpty){
         let lista = [];
   
@@ -164,10 +164,10 @@ export default function Teste(){
         <label>Cliente</label>
 
 
-            <select value={customerSelected} onChange={ (e) => console.log(e.target.value)} >
+            <select value={customerSelected} onChange={ (e) => loadChamados(e.target.value)} >
             {customers.map((item, index) => {
               return(
-                <option key={item.id} value={index} >
+                <option key={item.id} value={item.id} >
                   {item.nomeFantasia}
                 </option>
               )

@@ -68,9 +68,10 @@ export default function Teste(){
 
   }, []);
 
-  async function loadChamados(e){
+  async function loadChamados(clientId){
+    
      let listRef = await firebase.firestore().collection("chamados")
-    .where("clientId", "==", customers[e.target.value].id)
+    .where("clientId", "==", clientId)
     .get()
     .then((snapshot) => {
       updateState(snapshot)
@@ -163,7 +164,7 @@ export default function Teste(){
         <label>Cliente</label>
 
 
-            <select value={customerSelected} onChange={handleChangeCustomers} >
+            <select value={customerSelected} onChange={ (e) => console.log(e.target.value)} >
             {customers.map((item, index) => {
               return(
                 <option key={item.id} value={index} >
@@ -171,11 +172,7 @@ export default function Teste(){
                 </option>
               )
             })}
-          </select>
-
-          <button className="action"  onClick={ loadChamados }>Buscar
-          </button>
-        
+          </select>        
 
         {chamados.length === 0 ? (
           <div className="container dashboard">

@@ -1,6 +1,6 @@
 
 import './teste.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
@@ -8,11 +8,15 @@ import { FiMessageSquare, FiPlus, FiSearch, FiEdit2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
+import { AuthContext } from '../../contexts/auth';
+
 import firebase from '../../services/firebaseConnection';
 import Modal from '../../components/Modal';
 
 
 export default function Teste(){
+
+  const { user } = useContext(AuthContext);
 
 
   const [loadCustomers, setLoadCustomers] = useState(true);
@@ -68,40 +72,33 @@ export default function Teste(){
 
   }, []);
 
-  async function loadChamados(clientId){
-    
-     let listRef = await firebase.firestore().collection("chamados")
-    .where("clientId", "==", clientId)
-    .get()
-    .then((snapshot) => {
-      updateState(snapshot)
-      const isCollectionEmpty = snapshot.size === 0;
-      console.log(snapshot)
-      if(!isCollectionEmpty){
-        let lista = [];
+  useEffect(()=> {
+
+    async function loadChamados(){
+
+      let listRef = firebase.firestore().collection('chamados').where("clienteId", "==", customers[customerSelected].id)
+
+      await listRef
+      .get()
+      .then((snapshot) => {
+        updateState(snapshot)
+        console.log(listRef)
+      })
+      .catch((err)=>{
+        console.log('Deu algum erro: ', err);
+        setLoadingMore(false);
+      })
   
-        snapshot.forEach((doc)=>{
-          lista.push({
-            id: doc.id,
-            assunto: doc.data().assunto,
-            cliente: doc.data().cliente,
-            clienteId: doc.data().clienteId,
-            created: doc.data().created,
-            createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
-            status: doc.data().status,
-            complemento: doc.data().complemento
-          })
-        })
-        
-    }})
-    .catch((err)=>{
-      console.log('Deu algum erro: ', err);
-      setLoadingMore(false);
-    })
+      setLoading(false);
+  
+    }
 
-    setLoading(false);
+    loadChamados();
 
-  }
+    return () => {
+
+    }
+  }, [customerSelected, customers]);
 
   async function updateState(snapshot){
     const isCollectionEmpty = snapshot.size === 0;
@@ -118,15 +115,13 @@ export default function Teste(){
           created: doc.data().created,
           createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
           status: doc.data().status,
-          complemento: doc.data().complemento
+          complemento: doc.data().complemento,
+          usuario: doc.data().userName
         })
       })
 
-      const lastDoc = snapshot.docs[snapshot.docs.length -1]; //Pegando o ultimo documento buscado
-      
-      setChamados(chamados => [...chamados, ...lista]);
-      setLastDocs(lastDoc);
-
+      setChamados(lista)
+      console.log(lista)
     }else{
       setIsEmpty(true);
     }
@@ -146,8 +141,6 @@ export default function Teste(){
   function handleChangeCustomers(e){
     //console.log('INDEX DO CLIENTE SELECIONADO: ', e.target.value);
     console.log('Cliente selecionado ', customers[customerSelected].id)
-    console.log('Cliente selecionado ', customers[e.target.value])
-    console.log('Cliente selecionado ', customers[e.target.value].id)
     setCustomerSelected(e.target.value);
   }
 
@@ -157,22 +150,24 @@ export default function Teste(){
       <Header/>
 
       <div className="content">
-        <Title name="Atendimentos">
+        <Title name="Informações">
           <FiMessageSquare size={25} />
         </Title>
 
         <label>Cliente</label>
 
 
-            <select value={customerSelected} onChange={ (e) => loadChamados(e.target.value)} >
+            <select value={customerSelected} onChange={handleChangeCustomers} >
             {customers.map((item, index) => {
               return(
-                <option key={item.id} value={item.id} >
+                <option key={item.id} value={index} >
                   {item.nomeFantasia}
                 </option>
               )
             })}
-          </select>        
+          </select>
+
+        
 
         {chamados.length === 0 ? (
           <div className="container dashboard">
@@ -186,18 +181,18 @@ export default function Teste(){
         )  : (
           <>
             <Link to="/new" className="new">
-              <FiPlus size={25} color="#FFF" />
-              Novo chamado
+              <FiPlus size={20} color="#FFF" />
+              Nova Observação
             </Link>
 
             <table>
               <thead>
                 <tr>
                   <th scope="col">Cliente</th>
-                  <th scope="col">Assunto</th>
-                  <th scope="col">Status</th>
                   <th scope="col">Cadastrado em</th>
-                  <th scope="col">#</th>
+                  <th scope="col">Assunto</th>
+                  <th scope="col">Visualizar/Editar</th>
+                  <th scope="col">Usuário</th>
                 </tr>
               </thead>
               <tbody>
@@ -205,12 +200,10 @@ export default function Teste(){
                   return(
                     <tr key={index}>
                       <td data-label="Cliente">{item.cliente}</td>
-                      <td data-label="Assunto">{item.assunto}</td>
-                      <td data-label="Status">
-                        <span className="badge" style={{ backgroundColor: item.status === 'Aberto' ? '#5cb85c' : '#999' }}>{item.status}</span>
-                      </td>
                       <td data-label="Cadastrado">{item.createdFormated}</td>
-                      <td data-label="#">
+                      <td data-label="Assunto">{item.complemento}</td>
+                      
+                      <td data-label="Visualizar/Editar">
                         <button className="action" style={{backgroundColor: '#3583f6' }} onClick={ () => togglePostModal(item) }>
                           <FiSearch color="#FFF" size={17} />
                         </button>
@@ -218,6 +211,7 @@ export default function Teste(){
                           <FiEdit2 color="#FFF" size={17} />
                         </Link>
                       </td>
+                      <td data-label="Usuário">{item.usuario}</td>
                     </tr>
                   )
                 })}

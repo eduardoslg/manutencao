@@ -1,35 +1,41 @@
 
 import './maintenance.css';
-import { useState, useEffect, useContext } from 'react';
+
+import { useState, useEffect } from 'react';
+import firebase from '../../services/firebaseConnection';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
+import Modal from '../../components/Modal';
+import ModalConfirm from '../../components/ModalConfirm';
+
 import { FiMessageSquare, FiPlus, FiSearch, FiEdit2 } from 'react-icons/fi';
+import { FaUserAlt } from 'react-icons/fa';
+import { CgCalendarDates } from 'react-icons/cg';
+import { AiOutlineDelete } from 'react-icons/ai';
+
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 
-import { AuthContext } from '../../contexts/auth';
+import {
+  Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from '@chakra-ui/react';
+import { toast } from 'react-toastify';
 
-import firebase from '../../services/firebaseConnection';
-import Modal from '../../components/Modal';
 
 
-export default function Maintenance(){
-
-  const { user } = useContext(AuthContext);
-
-
-  const [loadCustomers, setLoadCustomers] = useState(true);
+export default function Teste(){
   const [customers, setCustomers] = useState([]);
   const [customerSelected, setCustomerSelected] = useState(0);
 
   const [chamados, setChamados] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [isEmpty, setIsEmpty] = useState(false);
-  const [lastDocs, setLastDocs] = useState();
-
   const [showPostModal, setShowPostModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState();
 
  
@@ -51,18 +57,15 @@ export default function Maintenance(){
         if(lista.length === 0){
           console.log('NENHUMA EMPRESA ENCONTRADA');
           setCustomers([ { id: '1', nomeFantasia: 'FREELA' } ]);
-          setLoadCustomers(false);
           return;
         }
 
         setCustomers(lista);
-        setLoadCustomers(false);
 
 
       })
       .catch((error)=>{
         console.log('DEU ALGUM ERRO!', error);
-        setLoadCustomers(false);
         setCustomers([ { id: '1', nomeFantasia: '' } ]);
       })
 
@@ -82,28 +85,18 @@ export default function Maintenance(){
       .get()
       .then((snapshot) => {
         updateState(snapshot)
-        console.log(listRef)
       })
       .catch((err)=>{
         console.log('Deu algum erro: ', err);
-        setLoadingMore(false);
       })
-  
-      setLoading(false);
   
     }
 
     loadChamados();
 
-    return () => {
-
-    }
   }, [customerSelected, customers]);
 
   async function updateState(snapshot){
-    const isCollectionEmpty = snapshot.size === 0;
-
-    if(!isCollectionEmpty){
       let lista = [];
 
       snapshot.forEach((doc)=>{
@@ -119,29 +112,26 @@ export default function Maintenance(){
           usuario: doc.data().userName
         })
       })
-
-      setChamados(lista)
-      console.log(lista)
-    }else{
-      setIsEmpty(true);
-    }
-
-    setLoadingMore(false);
-
+      setChamados(lista);
+      console.log(lista);
   }
-
-
 
   function togglePostModal(item){
     setShowPostModal(!showPostModal) //trocando de true pra false
+    setDetail(item);
+  }
+
+  function togglePostModalConfirm(item){
+    setShowModal(!showModal) //trocando de true pra false
     setDetail(item);
   }
   
   //Chamado quando troca de cliente
   function handleChangeCustomers(e){
     //console.log('INDEX DO CLIENTE SELECIONADO: ', e.target.value);
-    console.log('Cliente selecionado ', customers[customerSelected].id)
+    //console.log('Cliente selecionado ', customers[customerSelected].id)
     setCustomerSelected(e.target.value);
+    console.log(chamados);
   }
 
 
@@ -154,10 +144,9 @@ export default function Maintenance(){
           <FiMessageSquare size={25} />
         </Title>
 
-        <label>Cliente</label>
+        <label className="label">Cliente:</label>
 
-
-            <select value={customerSelected} onChange={handleChangeCustomers} >
+          <select className="selectCliente" value={customerSelected} onChange={handleChangeCustomers} >
             {customers.map((item, index) => {
               return(
                 <option key={item.id} value={index} >
@@ -171,11 +160,11 @@ export default function Maintenance(){
 
         {chamados.length === 0 ? (
           <div className="container dashboard">
-            <span>Nenhum chamado registrado...</span>
+            <span>Nenhuma observação registrada...</span>
 
             <Link to="/new" className="new">
               <FiPlus size={25} color="#FFF" />
-              Novo chamado
+              Nova Observação
             </Link>
           </div>
         )  : (
@@ -185,39 +174,53 @@ export default function Maintenance(){
               Nova Observação
             </Link>
 
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col">Cliente</th>
-                  <th scope="col">Cadastrado em</th>
-                  <th scope="col">Assunto</th>
-                  <th scope="col">Visualizar/Editar</th>
-                  <th scope="col">Usuário</th>
-                </tr>
-              </thead>
-              <tbody>
-                {chamados.map((item, index)=>{
+            <div className="div-accordion">
+            {chamados.map((item, index)=>{
                   return(
-                    <tr key={index}>
-                      <td data-label="Cliente">{item.cliente}</td>
-                      <td data-label="Cadastrado">{item.createdFormated}</td>
-                      <td data-label="Assunto">{item.complemento}</td>
-                      
-                      <td data-label="Visualizar/Editar">
-                        <button className="action" style={{backgroundColor: '#3583f6' }} onClick={ () => togglePostModal(item) }>
-                          <FiSearch color="#FFF" size={17} />
-                        </button>
-                        <Link className="action" style={{backgroundColor: '#F6a935' }} to={`/new/${item.id}`} >
-                          <FiEdit2 color="#FFF" size={17} />
-                        </Link>
-                      </td>
-                      <td data-label="Usuário">{item.usuario}</td>
-                    </tr>
+                    <Accordion className="Accordion" key={index} defaultIndex={[0]} allowMultiple>
+                      <AccordionItem className="AccordionItem">
+                        <h2 className="h2teste">
+                          <AccordionButton className="AccordionButton">
+                            <AccordionIcon />
+                            <Box className="AccordionBox" flex="1" textAlign='left'>
+                              {`# ${index + 1}`}
+
+                              <div className="divInfo">
+                                <span className="spanAssunto spanInfo">Assunto: {item.assunto}</span>
+                                <span className="spanUser spanInfo">
+                                  <FaUserAlt/>
+                                  {item.usuario}
+                                </span>
+                                <span className="spanData spanInfo">
+                                  <CgCalendarDates/>
+                                  {item.createdFormated}
+                                </span>
+                              </div>  
+                            </Box>
+                          </AccordionButton>
+                          
+                          <div className="testeAction">
+                                <Link className="action" style={{backgroundColor: '#F6a935' }} to={`/new/${item.id}`} >
+                                  <FiEdit2 color="#FFF" size={17} />
+                                </Link>
+
+                                <button className="action" style={{backgroundColor: '#3583f6' }} onClick={ () => togglePostModal(item) }>
+                                  <FiSearch color="#FFF" size={17} />
+                                </button>
+
+                                <button className="action" style={{backgroundColor: '	#FF0000' }} onClick={ () => togglePostModalConfirm(item) }>
+                                  <AiOutlineDelete color="#FFF" size={17} />
+                                </button>
+                          </div>
+                        </h2>
+                        <AccordionPanel pb={4}>
+                          {item.complemento}
+                        </AccordionPanel>
+                      </AccordionItem>
+                    </Accordion>
                   )
                 })}
-              </tbody>
-            </table>
-            
+            </div>
 
           </>
         )}
@@ -228,6 +231,13 @@ export default function Maintenance(){
         <Modal
           conteudo={detail}
           close={togglePostModal}
+        />
+      )}
+
+      {showModal && (
+        <ModalConfirm
+          item={detail}
+          close={togglePostModalConfirm}
         />
       )}
 

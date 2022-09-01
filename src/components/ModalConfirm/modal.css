@@ -1,0 +1,52 @@
+.modalConfirm{
+  position: fixed;
+  top: 0;
+  bottom:0;
+  right: 0;
+  left: 0;
+  background: rgba(0,0,0, 0.6);
+  z-index: 99;
+}
+
+.modalConfirm .containerConfirm{
+  position: fixed;
+  max-width: 400px;
+  margin: 0 auto;
+  top: 30%;
+  left:0;
+  right: 0;
+  height: 300px;
+  padding: 4em 2rem;
+  background-color: #FFF;
+  box-shadow: 0 0 20px rgba(0,0,0, 0.8);
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent{
+  height: 200px;
+}
+
+.confirm{
+  margin-bottom: 1.2em;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  margin-top: 50px;
+}
+
+.divbuttons{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.confirmButtons{
+  color: #FFF;
+  border-radius: 3px;
+  padding: 8px;
+}

@@ -1,3 +1,4 @@
+/*Dashboard*/
 
 .dashboard{
   display: flex;
@@ -12,8 +13,10 @@
   font-size: 1.2em;
 }
 
+/* Botão New */
+
 .new{
-  float:right;
+  float: right;
   margin-bottom: 1.5em;
   background-color: #83bf02;
   color: #FFF;
@@ -37,55 +40,96 @@
   transform: scale(1.1);
 }
 
-table{
-  border:1px solid #CCC;
-  border-collapse: collapse;
-  margin: 0;
-  padding: 0;
+.Accordion{
+  margin-bottom: 10px;
+}
+
+.testeAction{
+  background-color: rgba(203, 213, 225, 0.603);
+  display: flex;
+  align-items: center;
+}
+
+.divInfo{
+  display: flex;
+}
+
+.spanInfo{
+  display: flex;
+  margin-left: 20px;
+  width: 200px;
+  align-items: center;
+}
+
+.spanData{
+  gap: 3px;
+}
+
+.spanUser{
+  gap: 3px;
+}
+
+.h2teste:hover{
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.div-accordion{
+  border: 1px solid #e2e8f0;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 50px;
+}
+
+.teste{
+  width: 1000px;
+}
+
+.AccordionDiv{
+  margin-bottom: 5px;
+}
+
+.AccordionIcon{
+  width: 30px;
+}
+
+.AccordionButton{
+  background-color: rgba(203, 213, 225, 0.603);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.AccordionItem{
+  color: black;
   width: 100%;
-  table-layout: fixed;
+  display: block;
 }
 
-table caption{
-  font-size: 1.5em;
-  margin: .5em 0 .75em;
+.AccordionItem h2{
+  display: flex;
 }
 
-table tr{
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  padding: .35em;
+.AccordionBox{
+  display: flex;
 }
 
-table th,
-table td{
-  padding: .62em;
-  text-align: center;
+.teste{
+  display: flex;
+  justify-content: space-between;
 }
 
-table th{
-  font-size: .85em;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-
-table td .action{
-  border:0;
+.action{
+  height: 25px;
   padding: 5px;
-  margin-right: 2px;
+  margin-right: 7px;
   align-items: center;
   display: inline-block;
   border-radius: 4px;;
 }
 
-table td .action svg{
+.action svg{
   vertical-align: middle;
-}
-
-table td .badge{
-  padding: 3px;
-  border-radius: 3px;
-  color: #FFF;
 }
 
 .btn-more{

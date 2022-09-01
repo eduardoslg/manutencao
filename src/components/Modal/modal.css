@@ -18,6 +18,7 @@
 }
 
 .modal .container{
+  display: block;
   position: fixed;
   max-width: 600px;
   top: 15%;
@@ -29,13 +30,13 @@
   box-shadow: 0 0 20px rgba(0,0,0, 0.8);
 }
 
+.container-buttons{
+  display: flex;
+}
+
 .close{
   background-color: #F65835;
-  border:0;
   color: #FFF;
-  position: absolute;
-  top: 15px;
-  left: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,6 +46,22 @@
 
 .close svg{
   margin-right: 5px;
+}
+
+.actionModal svg{
+  margin-right: 5px;
+}
+
+.actionModal{
+
+  background-color: #F6a935;
+  color: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  padding: 4px 15px;
+  border-radius: 5px;
 }
 
 .modal h2{

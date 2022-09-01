@@ -16,9 +16,9 @@ export default function Header(){
         <img src={user.avatarUrl === null ? avatar : user.avatarUrl } alt="Foto avatar" />
       </div>
 
-      <Link to="/dashboard">
-        <FiHome color="#FFF" size={24} />
-        Chamados
+      <Link to="/maintenance">
+        <FiAperture color="#FFF" size={24} />
+        Manutenção
       </Link>
       <Link to="/customers">
         <FiUser color="#FFF" size={24} />
@@ -27,15 +27,7 @@ export default function Header(){
       <Link to="/profile">
         <FiSettings color="#FFF" size={24} />
         Configurações
-      </Link>        
-      <Link to="/maintenance">
-        <FiAperture color="#FFF" size={24} />
-        Manutenção
       </Link>
-      <Link to="/teste">
-        <FiAperture color="#FFF" size={24} />
-        Teste
-      </Link>  
     </div>
   )
 }

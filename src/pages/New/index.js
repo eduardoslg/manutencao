@@ -20,8 +20,7 @@ export default function New(){
   const [customers, setCustomers] = useState([]);
   const [customerSelected, setCustomerSelected] = useState(0);
 
-  const [assunto, setAssunto] = useState('Suporte');
-  const [status, setStatus] = useState('Aberto');
+  const [assunto, setAssunto] = useState('');
   const [complemento, setComplemento] = useState('');
 
   const [idCustomer, setIdCustomer] = useState(false);
@@ -78,7 +77,6 @@ export default function New(){
     .get()
     .then((snapshot) => {
       setAssunto(snapshot.data().assunto);
-      setStatus(snapshot.data().status);
       setComplemento(snapshot.data().complemento)
 
       let index = lista.findIndex(item => item.id === snapshot.data().clienteId );
@@ -109,7 +107,8 @@ export default function New(){
         toast.success('Chamado Editado com sucesso!');
         setCustomerSelected(0);
         setComplemento('');
-        history.push('/dashboard');
+        setAssunto('');
+        history.push('/maintenance');
       })
       .catch((err)=>{
         toast.error('Ops erro ao registrar, tente mais tarde.')
@@ -119,11 +118,17 @@ export default function New(){
       return;
     }
 
+    if(assunto === '' || complemento === ''){
+      toast.warn("Complete todos os campos!")
+      return;
+    }
+
     await firebase.firestore().collection('chamados')
     .add({
       created: new Date(),
       cliente: customers[customerSelected].nomeFantasia,
       clienteId: customers[customerSelected].id,
+      assunto: assunto,
       complemento: complemento,
       userId: user.uid,
       userName: user.nome
@@ -131,6 +136,8 @@ export default function New(){
     .then(()=> {
       toast.success('Chamado criado com sucesso!');
       setComplemento('');
+      setAssunto('')
+      history.push('/maintenance');
       setCustomerSelected(0);
     })
     .catch((err)=> {
@@ -139,18 +146,6 @@ export default function New(){
     })
 
 
-  }
-
-
-  //Chamado quando troca o assunto
-  function handleChangeSelect(e){
-    setAssunto(e.target.value);
-  }
-
-
-  //Chamado quando troca o status
-  function handleOptionChange(e){
-    setStatus(e.target.value);
   }
 
   //Chamado quando troca de cliente
@@ -192,6 +187,14 @@ export default function New(){
                 })}
               </select>
             )}
+
+            <label>Assunto</label>
+            <input
+            type="text"
+            placeholder="Descreva o assunto"
+            value={assunto}
+            onChange={ (e) => setAssunto(e.target.value)}
+            />
 
             <label className="labelDescricao">Descrição</label>
             <textarea

@@ -67,6 +67,7 @@ export default function New(){
     }
 
     loadCustomers();
+    console.log(user)
 
   }, [id]);
 
@@ -103,7 +104,8 @@ export default function New(){
         assunto: assunto,
         status: status,
         complemento: complemento,
-        userId: user.uid
+        userId: user.uid,
+        userName: user.nome
       })
       .then(()=>{
         toast.success('Chamado Editado com sucesso!');
@@ -127,7 +129,8 @@ export default function New(){
       assunto: assunto,
       status: status,
       complemento: complemento,
-      userId: user.uid
+      userId: user.uid,
+      userName: user.nome
     })
     .then(()=> {
       toast.success('Chamado criado com sucesso!');

@@ -1,5 +1,5 @@
 
-import './teste.css';
+import './maintenance.css';
 import { useState, useEffect, useContext } from 'react';
 
 import Header from '../../components/Header';
@@ -13,17 +13,8 @@ import { AuthContext } from '../../contexts/auth';
 import firebase from '../../services/firebaseConnection';
 import Modal from '../../components/Modal';
 
-import {
-  Box,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
-} from '@chakra-ui/react';
 
-
-export default function Teste(){
+export default function Maintenance(){
 
   const { user } = useContext(AuthContext);
 
@@ -166,7 +157,6 @@ export default function Teste(){
         <label>Cliente</label>
 
 
-
             <select value={customerSelected} onChange={handleChangeCustomers} >
             {customers.map((item, index) => {
               return(
@@ -195,37 +185,39 @@ export default function Teste(){
               Nova Observação
             </Link>
 
-            <div className="div-accordion">
-            {chamados.map((item, index)=>{
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Cliente</th>
+                  <th scope="col">Cadastrado em</th>
+                  <th scope="col">Assunto</th>
+                  <th scope="col">Visualizar/Editar</th>
+                  <th scope="col">Usuário</th>
+                </tr>
+              </thead>
+              <tbody>
+                {chamados.map((item, index)=>{
                   return(
-                    <Accordion className="Accordion" key={index} defaultIndex={[0]} allowMultiple>
-                      <AccordionItem className="AccordionItem">
-                        <h2 className="h2teste">
-                          <AccordionButton className="AccordionButton">
-                            <Box className='teste' flex='1' textAlign='left'>
-                              {`# ${index + 1}`}
-                            </Box>
-                            <AccordionIcon />
-                          </AccordionButton>
-                          
-                          <div className="testeAction">
-                                <Link className="action" style={{backgroundColor: '#F6a935' }} to={`/new/${item.id}`} >
-                                  <FiEdit2 color="#FFF" size={17} />
-                                </Link>
-
-                                <button className="action" style={{backgroundColor: '#3583f6' }} onClick={ () => togglePostModal(item) }>
-                                  <FiSearch color="#FFF" size={17} />
-                                </button>
-                              </div>
-                        </h2>
-                        <AccordionPanel pb={4}>
-                          {item.complemento}
-                        </AccordionPanel>
-                      </AccordionItem>
-                    </Accordion>
+                    <tr key={index}>
+                      <td data-label="Cliente">{item.cliente}</td>
+                      <td data-label="Cadastrado">{item.createdFormated}</td>
+                      <td data-label="Assunto">{item.complemento}</td>
+                      
+                      <td data-label="Visualizar/Editar">
+                        <button className="action" style={{backgroundColor: '#3583f6' }} onClick={ () => togglePostModal(item) }>
+                          <FiSearch color="#FFF" size={17} />
+                        </button>
+                        <Link className="action" style={{backgroundColor: '#F6a935' }} to={`/new/${item.id}`} >
+                          <FiEdit2 color="#FFF" size={17} />
+                        </Link>
+                      </td>
+                      <td data-label="Usuário">{item.usuario}</td>
+                    </tr>
                   )
                 })}
-            </div>
+              </tbody>
+            </table>
+            
 
           </>
         )}

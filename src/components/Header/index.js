@@ -28,10 +28,14 @@ export default function Header(){
         <FiSettings color="#FFF" size={24} />
         Configurações
       </Link>        
+      <Link to="/maintenance">
+        <FiAperture color="#FFF" size={24} />
+        Manutenção
+      </Link>
       <Link to="/teste">
         <FiAperture color="#FFF" size={24} />
         Teste
-      </Link>     
+      </Link>  
     </div>
   )
 }

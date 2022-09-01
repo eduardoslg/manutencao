@@ -1,59 +1,4 @@
 
-
-.Accordion{
-  margin-bottom: 10px;
-}
-
-.testeAction{
-  display: flex;
-  align-items: center;
-  
-}
-
-.h2teste:hover{
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-
-
-.div-accordion{
-  border: 1px solid #e2e8f0;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 50px;
-}
-
-.teste{
-  width: 1000px;
-}
-
-.AccordionDiv{
-  margin-bottom: 5px;
-}
-
-.AccordionIcon{
-  width: 30px;
-}
-
-.AccordionItem{
-  color: black;
-  width: 100%;
-  display: block;
-  border: 1px solid black;
-}
-
-.AccordionItem h2{
-  display: flex;
-}
-
-.AccordionPanel{
-
-}
-
-.teste{
-  display: flex;
-  justify-content: space-between;
-}
 .dashboard{
   display: flex;
   justify-content: center;
@@ -124,16 +69,16 @@ table th{
   text-transform: uppercase;
 }
 
-.action{
+table td .action{
   border:0;
   padding: 5px;
-  margin-right: 7px;
+  margin-right: 2px;
   align-items: center;
   display: inline-block;
   border-radius: 4px;;
 }
 
-.action svg{
+table td .action svg{
   vertical-align: middle;
 }
 

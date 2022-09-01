@@ -165,9 +165,13 @@ export default function New(){
       <Header/>
 
       <div className="content">
-        <Title name="Novo chamado">
+        <Title name="Nova Descrição">
           <FiPlusCircle size={25} />
         </Title>
+
+
+
+        
 
         <div className="container">
 

@@ -17,3 +17,6 @@ form input[type="radio"]:not(:first-child){
   font-size: 1.3em;
 }
 
+.labelDescricao{
+  margin-top: 30px;
+}

@@ -165,9 +165,7 @@ export default function Teste(){
 
         <label>Cliente</label>
 
-
-
-            <select value={customerSelected} onChange={handleChangeCustomers} >
+          <select value={customerSelected} onChange={handleChangeCustomers} >
             {customers.map((item, index) => {
               return(
                 <option key={item.id} value={index} >

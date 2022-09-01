@@ -24,22 +24,20 @@ export default function Modal({conteudo, close}){
 
           <div className="row">
             <span>
-              Assunto: <i>{conteudo.assunto}</i>
-            </span>
-            <span>
               Cadastrado em: <i>{conteudo.createdFormated}</i>
             </span>
           </div>
 
           <div className="row">
             <span>
-              Status: <i style={{ color: '#FFF', backgroundColor: conteudo.status === 'Aberto' ? '#5cb85c' : '#999' }}>{conteudo.status}</i>
+              Usuário: <i>{conteudo.usuario}</i>
             </span>
           </div>
 
+
           {conteudo.complemento !== '' && (
             <>
-              <h3>Complemento</h3>
+              <h3 className="Descricao">Descrição</h3>
               <p>
                 {conteudo.complemento}
               </p>

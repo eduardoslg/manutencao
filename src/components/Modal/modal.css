@@ -1,4 +1,12 @@
 
+.Descricao{
+  padding-top: 10px;
+  border-top: 1px solid black;
+  margin-top: 15px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 .modal{
   position: fixed;
   top: 0;

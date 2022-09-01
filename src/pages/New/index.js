@@ -101,8 +101,6 @@ export default function New(){
       .update({
         cliente: customers[customerSelected].nomeFantasia,
         clienteId: customers[customerSelected].id,
-        assunto: assunto,
-        status: status,
         complemento: complemento,
         userId: user.uid,
         userName: user.nome
@@ -126,8 +124,6 @@ export default function New(){
       created: new Date(),
       cliente: customers[customerSelected].nomeFantasia,
       clienteId: customers[customerSelected].id,
-      assunto: assunto,
-      status: status,
       complemento: complemento,
       userId: user.uid,
       userName: user.nome
@@ -193,47 +189,10 @@ export default function New(){
               </select>
             )}
 
-            <label>Assunto</label>
-            <select value={assunto} onChange={handleChangeSelect}>
-              <option value="Suporte">Suporte</option>
-              <option value="Visita Tecnica">Visita Tecnica</option>
-              <option value="Financeiro">Financeiro</option>
-            </select>
-
-            <label>Status</label>
-            <div className="status">
-              <input 
-              type="radio"
-              name="radio"
-              value="Aberto"
-              onChange={handleOptionChange}
-              checked={ status === 'Aberto' }
-              />
-              <span>Em Aberto</span>
-
-              <input 
-              type="radio"
-              name="radio"
-              value="Progresso"
-              onChange={handleOptionChange}
-              checked={ status === 'Progresso' }
-              />
-              <span>Progresso</span>
-
-              <input 
-              type="radio"
-              name="radio"
-              value="Atendido"
-              onChange={handleOptionChange}
-              checked={ status === 'Atendido' }
-              />
-              <span>Atendido</span>
-            </div>
-
-            <label>Complemento</label>
+            <label className="labelDescricao">Descrição</label>
             <textarea
               type="text"
-              placeholder="Descreva seu problema (opcional)."
+              placeholder="Descreve a informação aqui"
               value={complemento}
               onChange={ (e) => setComplemento(e.target.value) }
             />

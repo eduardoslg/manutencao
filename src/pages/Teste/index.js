@@ -163,9 +163,9 @@ export default function Teste(){
           <FiMessageSquare size={25} />
         </Title>
 
-        <label>Cliente</label>
+        <label className="labelCliente">Cliente:</label>
 
-          <select value={customerSelected} onChange={handleChangeCustomers} >
+          <select className="selectCliente" value={customerSelected} onChange={handleChangeCustomers} >
             {customers.map((item, index) => {
               return(
                 <option key={item.id} value={index} >
@@ -200,10 +200,16 @@ export default function Teste(){
                       <AccordionItem className="AccordionItem">
                         <h2 className="h2teste">
                           <AccordionButton className="AccordionButton">
-                            <Box className='teste' flex='1' textAlign='left'>
-                              {`# ${index + 1}`}
-                            </Box>
                             <AccordionIcon />
+                            <Box className="AccordionBox" flex='1' textAlign='left'>
+                              {`# ${index + 1}`}
+
+                              <div className="divInfo">
+                                <span className="spanInfo">Assunto: {item.assunto}</span>
+                                <span className="spanInfo">{item.createdFormated}</span>
+                                <span className="spanInfo">Usuário: {item.usuario}</span>
+                              </div>  
+                            </Box>
                           </AccordionButton>
                           
                           <div className="testeAction">
@@ -214,7 +220,7 @@ export default function Teste(){
                                 <button className="action" style={{backgroundColor: '#3583f6' }} onClick={ () => togglePostModal(item) }>
                                   <FiSearch color="#FFF" size={17} />
                                 </button>
-                              </div>
+                          </div>
                         </h2>
                         <AccordionPanel pb={4}>
                           {item.complemento}

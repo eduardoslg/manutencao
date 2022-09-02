@@ -5,9 +5,22 @@
 }
 
 .testeAction{
+  background-color: rgba(203, 213, 225, 0.603);
   display: flex;
-  align-items: center;
-  
+}
+
+.divInfo{
+  display: flex;
+}
+
+.spanInfo{
+  display: flex;
+  margin-left: 20px;
+  width: 200px;
+}
+
+.selectCliente{
+  margin-left: 6px;
 }
 
 .h2teste:hover{
@@ -35,6 +48,14 @@
   width: 30px;
 }
 
+.AccordionButton{
+  background-color: rgba(203, 213, 225, 0.603);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .AccordionItem{
   color: black;
   width: 100%;
@@ -46,8 +67,8 @@
   display: flex;
 }
 
-.AccordionPanel{
-
+.AccordionBox{
+  display: flex;
 }
 
 .teste{

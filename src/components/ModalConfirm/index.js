@@ -2,15 +2,30 @@
 import './modal.css';
 
 import firebase from '../../services/firebaseConnection';
+import { useContext } from 'react';
 import { toast } from 'react-toastify';
 
+import { AuthContext } from '../../contexts/auth';
 import { Link } from 'react-router-dom';
 
 export default function ModalConfirm({item, close}){
+  const { user } = useContext(AuthContext);
+  console.log(user);
+  console.log(user.role);
+
+  let userRole = user.role;
+
 
   async function deleteItem(item){
-    await firebase.firestore().collection('chamados').doc(item.id).delete().then(() => {
-      toast.success("Deletado com sucesso!")})
+    
+    if(userRole === 'admin'){
+      await firebase.firestore().collection('chamados').doc(item.id).delete().then(() => {
+        toast.success("Deletado com sucesso!")})
+    }else {
+      toast.warn("Usuário sem permissão")
+      return;
+    }
+    
 
   }
   

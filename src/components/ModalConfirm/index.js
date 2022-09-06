@@ -22,7 +22,6 @@ export default function ModalConfirm({item, close}){
 
           <div className="divbuttons">
             <button className="confirmButtons" style={{backgroundColor: '#3583f6' }} onClick={ close }>Voltar</button>
-            <button className="confirmButtons" style={{backgroundColor: '#3583f6' }} onClick={ close }>Voltar</button>
             <Link to="/">
             <button  className="confirmButtons" style={{backgroundColor: '#FF0000' }} onClick={ () => deleteItem(item)  }>Deletar</button>
             </Link>

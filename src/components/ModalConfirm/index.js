@@ -10,10 +10,8 @@ import { Link } from 'react-router-dom';
 
 export default function ModalConfirm({item, close}){
   const { user } = useContext(AuthContext);
-  console.log(user);
-  console.log(user.role);
 
-  let userRole = user.role;
+  const userRole = user.role;
 
 
   async function deleteItem(item){

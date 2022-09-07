@@ -43,7 +43,8 @@ function AuthProvider({ children }){
         uid: uid,
         nome: userProfile.data().nome,
         avatarUrl: userProfile.data().avatarUrl,
-        email: value.user.email
+        email: value.user.email,
+        role: userProfile.data().role
       };
 
       setUser(data);
@@ -74,6 +75,8 @@ function AuthProvider({ children }){
       .doc(uid).set({
         nome: nome,
         avatarUrl: null,
+        email: email,
+        role: 'usuario'
       })
       .then( () => {
 
@@ -81,7 +84,8 @@ function AuthProvider({ children }){
           uid: uid,
           nome: nome,
           email: value.user.email,
-          avatarUrl: null
+          avatarUrl: null,
+          role: 'usuario'
         };
 
         setUser(data);

@@ -25,7 +25,6 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from '@chakra-ui/react';
-import { toast } from 'react-toastify';
 
 
 
@@ -113,7 +112,6 @@ export default function Teste(){
         })
       })
       setChamados(lista);
-      console.log(lista);
   }
 
   function togglePostModal(item){
@@ -131,7 +129,6 @@ export default function Teste(){
     //console.log('INDEX DO CLIENTE SELECIONADO: ', e.target.value);
     //console.log('Cliente selecionado ', customers[customerSelected].id)
     setCustomerSelected(e.target.value);
-    console.log(chamados);
   }
 
 

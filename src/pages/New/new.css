@@ -2,21 +2,13 @@
 form textarea{
   height: 105px;
   resize: none;
+  padding: 10px;
 }
 
-form input[type="radio"]{
-  margin: 15px 0;
-}
-
-form input[type="radio"]:not(:first-child){
-  margin-left: 15px;
-}
-
-.status span{
-  padding-left: .5em;
-  font-size: 1.3em;
+.label-assunto{
+  margin-top: 15px;
 }
 
 .labelDescricao{
-  margin-top: 30px;
+  margin-top: 15px;
 }

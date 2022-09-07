@@ -26,7 +26,7 @@ export default function New(){
   const [idCustomer, setIdCustomer] = useState(false);
 
   const { user } = useContext(AuthContext);
-
+  const userRole = user.role;
 
   useEffect(()=> {
     async function loadCustomers(){
@@ -66,7 +66,6 @@ export default function New(){
     }
 
     loadCustomers();
-    console.log(user)
 
   }, [id]);
 
@@ -93,7 +92,7 @@ export default function New(){
   async function handleRegister(e){
     e.preventDefault();
 
-    if(idCustomer){
+    if(idCustomer && userRole === 'admin' ){
       await firebase.firestore().collection('chamados')
       .doc(id)
       .update({
@@ -123,27 +122,32 @@ export default function New(){
       return;
     }
 
-    await firebase.firestore().collection('chamados')
-    .add({
-      created: new Date(),
-      cliente: customers[customerSelected].nomeFantasia,
-      clienteId: customers[customerSelected].id,
-      assunto: assunto,
-      complemento: complemento,
-      userId: user.uid,
-      userName: user.nome
-    })
-    .then(()=> {
-      toast.success('Chamado criado com sucesso!');
-      setComplemento('');
-      setAssunto('')
-      history.push('/maintenance');
-      setCustomerSelected(0);
-    })
-    .catch((err)=> {
-      toast.error('Ops erro ao registrar, tente mais tarde.')
-      console.log(err);
-    })
+    if(userRole === 'admin'){
+      await firebase.firestore().collection('chamados')
+      .add({
+        created: new Date(),
+        cliente: customers[customerSelected].nomeFantasia,
+        clienteId: customers[customerSelected].id,
+        assunto: assunto,
+        complemento: complemento,
+        userId: user.uid,
+        userName: user.nome
+      })
+      .then(()=> {
+        toast.success('Chamado criado com sucesso!');
+        setComplemento('');
+        setAssunto('')
+        history.push('/maintenance');
+        setCustomerSelected(0);
+      })
+      .catch((err)=> {
+        toast.error('Ops erro ao registrar, tente mais tarde.')
+        console.log(err);
+      })
+      }else {
+        toast.error("Usuário sem permissão!!");
+        return;
+      }
 
 
   }
@@ -188,7 +192,7 @@ export default function New(){
               </select>
             )}
 
-            <label>Assunto</label>
+            <label className="label-assunto">Assunto</label>
             <input
             type="text"
             placeholder="Descreva o assunto"
@@ -199,7 +203,7 @@ export default function New(){
             <label className="labelDescricao">Descrição</label>
             <textarea
               type="text"
-              placeholder="Descreve a informação aqui"
+              placeholder="Descreva a informação aqui"
               value={complemento}
               onChange={ (e) => setComplemento(e.target.value) }
             />

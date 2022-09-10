@@ -2,29 +2,24 @@
 import './modal.css';
 
 import firebase from '../../services/firebaseConnection';
-import { useContext } from 'react';
-import { toast } from 'react-toastify';
 
-import { AuthContext } from '../../contexts/auth';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/auth';
+
+import { toast } from 'react-toastify';
 
 export default function ModalConfirm({item, close}){
   const { user } = useContext(AuthContext);
-
   const userRole = user.role;
 
-
-  async function deleteItem(item){
-    
+  const handleDeleteItem = async () => {
     if(userRole === 'admin'){
       await firebase.firestore().collection('chamados').doc(item.id).delete().then(() => {
         toast.success("Deletado com sucesso!")})
     }else {
       toast.warn("Usuário sem permissão")
-      return;
     }
-    
-
   }
   
   return(
@@ -36,7 +31,7 @@ export default function ModalConfirm({item, close}){
           <div className="divbuttons">
             <button className="confirmButtons" style={{backgroundColor: '#3583f6' }} onClick={ close }>Voltar</button>
             <Link to="/">
-            <button  className="confirmButtons" style={{backgroundColor: '#FF0000' }} onClick={ () => deleteItem(item)  }>Deletar</button>
+            <button  className="confirmButtons" style={{backgroundColor: '#FF0000' }} onClick={ handleDeleteItem }>Deletar</button>
             </Link>
           </div>
         </div>

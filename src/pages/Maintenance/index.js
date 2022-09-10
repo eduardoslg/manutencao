@@ -44,7 +44,7 @@ export default function Teste(){
       await firebase.firestore().collection('customers')
       .get()
       .then((snapshot)=>{
-        let lista = [];
+        const lista = [];
 
         snapshot.forEach((doc) => {
           lista.push({
@@ -78,7 +78,7 @@ export default function Teste(){
 
     async function loadChamados(){
 
-      let listRef = firebase.firestore().collection('chamados').where("clienteId", "==", customers[customerSelected].id)
+      const listRef = firebase.firestore().collection('chamados').where("clienteId", "==", customers[customerSelected].id)
 
       await listRef
       .get()
@@ -96,7 +96,7 @@ export default function Teste(){
   }, [customerSelected, customers]);
 
   async function updateState(snapshot){
-      let lista = [];
+      const lista = [];
 
       snapshot.forEach((doc)=>{
         lista.push({
@@ -114,18 +114,18 @@ export default function Teste(){
       setChamados(lista);
   }
 
-  function togglePostModal(item){
+  const togglePostModal = (item) => {
     setShowPostModal(!showPostModal) //trocando de true pra false
     setDetail(item);
   }
 
-  function togglePostModalConfirm(item){
+  const togglePostModalConfirm = (item) => {
     setShowModal(!showModal) //trocando de true pra false
     setDetail(item);
   }
   
   //Chamado quando troca de cliente
-  function handleChangeCustomers(e){
+  const handleChangeCustomers = (e) => {
     //console.log('INDEX DO CLIENTE SELECIONADO: ', e.target.value);
     //console.log('Cliente selecionado ', customers[customerSelected].id)
     setCustomerSelected(e.target.value);

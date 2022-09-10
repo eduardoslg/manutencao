@@ -16,6 +16,9 @@ export default function New(){
   const { id } = useParams();
   const history = useHistory();
 
+  const { user } = useContext(AuthContext);
+  const userRole = user.role;
+
   const [loadCustomers, setLoadCustomers] = useState(true);
   const [customers, setCustomers] = useState([]);
   const [customerSelected, setCustomerSelected] = useState(0);
@@ -25,15 +28,12 @@ export default function New(){
 
   const [idCustomer, setIdCustomer] = useState(false);
 
-  const { user } = useContext(AuthContext);
-  const userRole = user.role;
-
   useEffect(()=> {
     async function loadCustomers(){
       await firebase.firestore().collection('customers')
       .get()
       .then((snapshot)=>{
-        let lista = [];
+        const lista = [];
 
         snapshot.forEach((doc) => {
           lista.push({
@@ -78,7 +78,7 @@ export default function New(){
       setAssunto(snapshot.data().assunto);
       setComplemento(snapshot.data().complemento)
 
-      let index = lista.findIndex(item => item.id === snapshot.data().clienteId );
+      const index = lista.findIndex(item => item.id === snapshot.data().clienteId );
       setCustomerSelected(index);
       setIdCustomer(true);
 

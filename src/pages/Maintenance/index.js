@@ -9,14 +9,6 @@ import Title from '../../components/Title';
 import Modal from '../../components/Modal';
 import ModalConfirm from '../../components/ModalConfirm';
 
-import { FiMessageSquare, FiPlus, FiSearch, FiEdit2 } from 'react-icons/fi';
-import { FaUserAlt } from 'react-icons/fa';
-import { CgCalendarDates } from 'react-icons/cg';
-import { AiOutlineDelete } from 'react-icons/ai';
-
-import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
-
 import {
   Box,
   Accordion,
@@ -26,13 +18,18 @@ import {
   AccordionIcon,
 } from '@chakra-ui/react';
 
+import { FiMessageSquare, FiPlus, FiSearch, FiEdit2 } from 'react-icons/fi';
+import { AiOutlineDelete } from 'react-icons/ai';
+
+import { Link } from 'react-router-dom';
+import { format } from 'date-fns';
 
 
 export default function Teste(){
   const [customers, setCustomers] = useState([]);
   const [customerSelected, setCustomerSelected] = useState(0);
 
-  const [chamados, setChamados] = useState([]);
+  const [notes, setNotes] = useState([]);
   const [showPostModal, setShowPostModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState();
@@ -76,9 +73,9 @@ export default function Teste(){
 
   useEffect(()=> {
 
-    async function loadChamados(){
+    async function loadNotes(){
 
-      const listRef = firebase.firestore().collection('chamados').where("clienteId", "==", customers[customerSelected].id)
+      const listRef = firebase.firestore().collection('notes').where("clienteId", "==", customers[customerSelected].id)
 
       await listRef
       .get()
@@ -91,7 +88,7 @@ export default function Teste(){
   
     }
 
-    loadChamados();
+    loadNotes();
 
   }, [customerSelected, customers]);
 
@@ -102,16 +99,16 @@ export default function Teste(){
         lista.push({
           id: doc.id,
           assunto: doc.data().assunto,
+          descricao: doc.data().descricao,
           cliente: doc.data().cliente,
           clienteId: doc.data().clienteId,
           created: doc.data().created,
           createdFormated: format(doc.data().created.toDate(), 'dd/MM/yyyy'),
           status: doc.data().status,
-          complemento: doc.data().complemento,
           usuario: doc.data().userName
         })
       })
-      setChamados(lista);
+      setNotes(lista);
   }
 
   const togglePostModal = (item) => {
@@ -146,16 +143,16 @@ export default function Teste(){
           <select className="selectCliente" value={customerSelected} onChange={handleChangeCustomers} >
             {customers.map((item, index) => {
               return(
-                <option key={item.id} value={index} >
-                  {item.nomeFantasia}
-                </option>
+                  <option key={item.id} value={index} >
+                    {item.nomeFantasia}
+                  </option>
               )
             })}
           </select>
 
         
 
-        {chamados.length === 0 ? (
+        {notes.length === 0 ? (
           <div className="container dashboard">
             <span>Nenhuma observação registrada...</span>
 
@@ -172,31 +169,25 @@ export default function Teste(){
             </Link>
 
             <div className="div-accordion">
-            {chamados.map((item, index)=>{
+            {notes.map((item, index)=>{
                   return(
-                    <Accordion className="Accordion" key={index} defaultIndex={[0]} allowMultiple>
-                      <AccordionItem className="AccordionItem">
-                        <h2 className="h2teste">
-                          <AccordionButton className="AccordionButton">
+                    <Accordion marginBottom={2} key={index} defaultIndex={[0]} allowMultiple>
+                      <AccordionItem>
+                        <Box display='flex'>
+                          <AccordionButton _hover={false} className="AccordionButton">
                             <AccordionIcon />
-                            <Box className="AccordionBox" flex="1" textAlign='left'>
-                              {`# ${index + 1}`}
 
-                              <div className="divInfo">
-                                <span className="spanAssunto spanInfo">Assunto: {item.assunto}</span>
-                                <span className="spanUser spanInfo">
-                                  <FaUserAlt/>
-                                  {item.usuario}
-                                </span>
-                                <span className="spanData spanInfo">
-                                  <CgCalendarDates/>
-                                  {item.createdFormated}
-                                </span>
-                              </div>  
+                            <Box display='flex' flex="1" textAlign='left'>
+                              {`# ${index + 1}`}
+                              <span className="span-info"> {item.assunto}</span>
                             </Box>
+
+                            <span className="span-data">
+                                  {item.createdFormated}
+                            </span>
                           </AccordionButton>
                           
-                          <div className="testeAction">
+                          <div className="div-buttons">
                                 <Link className="action" style={{backgroundColor: '#F6a935' }} to={`/new/${item.id}`} >
                                   <FiEdit2 color="#FFF" size={17} />
                                 </Link>
@@ -209,9 +200,9 @@ export default function Teste(){
                                   <AiOutlineDelete color="#FFF" size={17} />
                                 </button>
                           </div>
-                        </h2>
+                        </Box>
                         <AccordionPanel pb={4}>
-                          {item.complemento}
+                          {item.descricao}
                         </AccordionPanel>
                       </AccordionItem>
                     </Accordion>

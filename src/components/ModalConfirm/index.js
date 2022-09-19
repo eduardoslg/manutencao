@@ -15,7 +15,7 @@ export default function ModalConfirm({item, close}){
 
   const handleDeleteItem = async () => {
     if(userRole === 'admin'){
-      await firebase.firestore().collection('chamados').doc(item.id).delete().then(() => {
+      await firebase.firestore().collection('notes').doc(item.id).delete().then(() => {
         toast.success("Deletado com sucesso!")})
     }else {
       toast.warn("Usuário sem permissão")

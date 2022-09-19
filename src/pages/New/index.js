@@ -1,16 +1,16 @@
+import firebase from '../../services/firebaseConnection';
+import { AuthContext } from '../../contexts/auth';
 
 import { useState, useEffect, useContext } from 'react';
-
-import firebase from '../../services/firebaseConnection';
 import { useHistory, useParams } from 'react-router-dom';
+
+import './new.css';
 
 import Header from '../../components/Header';
 import Title from '../../components/Title';
-import { AuthContext } from '../../contexts/auth';
+import { FiPlusCircle } from 'react-icons/fi'
 import { toast } from 'react-toastify';
 
-import './new.css';
-import { FiPlusCircle } from 'react-icons/fi'
 
 export default function New(){
   const { id } = useParams();
@@ -22,10 +22,8 @@ export default function New(){
   const [loadCustomers, setLoadCustomers] = useState(true);
   const [customers, setCustomers] = useState([]);
   const [customerSelected, setCustomerSelected] = useState(0);
-
   const [assunto, setAssunto] = useState('');
-  const [complemento, setComplemento] = useState('');
-
+  const [descricao, setDescricao] = useState('');
   const [idCustomer, setIdCustomer] = useState(false);
 
   useEffect(()=> {
@@ -72,11 +70,11 @@ export default function New(){
 
 
   async function loadId(lista){
-    await firebase.firestore().collection('chamados').doc(id)
+    await firebase.firestore().collection('notes').doc(id)
     .get()
     .then((snapshot) => {
       setAssunto(snapshot.data().assunto);
-      setComplemento(snapshot.data().complemento)
+      setDescricao(snapshot.data().descricao)
 
       const index = lista.findIndex(item => item.id === snapshot.data().clienteId );
       setCustomerSelected(index);
@@ -93,19 +91,19 @@ export default function New(){
     e.preventDefault();
 
     if(idCustomer && userRole === 'admin' ){
-      await firebase.firestore().collection('chamados')
+      await firebase.firestore().collection('notes')
       .doc(id)
       .update({
         cliente: customers[customerSelected].nomeFantasia,
         clienteId: customers[customerSelected].id,
-        complemento: complemento,
+        descricao: descricao,
         userId: user.uid,
         userName: user.nome
       })
       .then(()=>{
         toast.success('Chamado Editado com sucesso!');
         setCustomerSelected(0);
-        setComplemento('');
+        setDescricao('');
         setAssunto('');
         history.push('/maintenance');
       })
@@ -117,25 +115,25 @@ export default function New(){
       return;
     }
 
-    if(assunto === '' || complemento === ''){
+    if(assunto === '' || descricao === ''){
       toast.warn("Complete todos os campos!")
       return;
     }
 
     if(userRole === 'admin'){
-      await firebase.firestore().collection('chamados')
+      await firebase.firestore().collection('notes')
       .add({
         created: new Date(),
         cliente: customers[customerSelected].nomeFantasia,
         clienteId: customers[customerSelected].id,
         assunto: assunto,
-        complemento: complemento,
+        descricao: descricao,
         userId: user.uid,
         userName: user.nome
       })
       .then(()=> {
         toast.success('Chamado criado com sucesso!');
-        setComplemento('');
+        setDescricao('');
         setAssunto('')
         history.push('/maintenance');
         setCustomerSelected(0);
@@ -166,11 +164,7 @@ export default function New(){
       <div className="content">
         <Title name="Nova Descrição">
           <FiPlusCircle size={25} />
-        </Title>
-
-
-
-        
+        </Title>        
 
         <div className="container">
 
@@ -178,13 +172,14 @@ export default function New(){
             
             <label>Cliente</label>
 
+
             {loadCustomers ? (
               <input type="text" disabled={true} value="Carregando clientes..." />
             ) : (
                 <select value={customerSelected} onChange={handleChangeCustomers} >
                 {customers.map((item, index) => {
                   return(
-                    <option key={item.id} value={index} >
+                    <option style={{ maxHeight: '30'}} key={item.id} value={index} >
                       {item.nomeFantasia}
                     </option>
                   )
@@ -192,7 +187,7 @@ export default function New(){
               </select>
             )}
 
-            <label className="label-assunto">Assunto</label>
+            <label className="assunto">Assunto</label>
             <input
             type="text"
             placeholder="Descreva o assunto"
@@ -200,12 +195,12 @@ export default function New(){
             onChange={ (e) => setAssunto(e.target.value)}
             />
 
-            <label className="labelDescricao">Descrição</label>
+            <label className="descricao">Descrição</label>
             <textarea
               type="text"
               placeholder="Descreva a informação aqui"
-              value={complemento}
-              onChange={ (e) => setComplemento(e.target.value) }
+              value={descricao}
+              onChange={ (e) => setDescricao(e.target.value) }
             />
             
             <button type="submit">Registrar</button>

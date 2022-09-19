@@ -1,4 +1,4 @@
-/*Dashboard*/
+/* Dashboard */
 
 .dashboard{
   display: flex;
@@ -40,38 +40,7 @@
   transform: scale(1.1);
 }
 
-.Accordion{
-  margin-bottom: 10px;
-}
-
-.testeAction{
-  background-color: rgba(203, 213, 225, 0.603);
-  display: flex;
-  align-items: center;
-}
-
-.divInfo{
-  display: flex;
-}
-
-.spanInfo{
-  display: flex;
-  margin-left: 20px;
-  width: 200px;
-  align-items: center;
-}
-
-.spanData{
-  gap: 3px;
-}
-
-.spanUser{
-  gap: 3px;
-}
-
-.h2teste:hover{
-  background-color: rgba(0, 0, 0, 0.04);
-}
+/* Accordion */
 
 .div-accordion{
   border: 1px solid #e2e8f0;
@@ -80,43 +49,30 @@
   margin-top: 50px;
 }
 
-.teste{
-  width: 1000px;
-}
-
-.AccordionDiv{
-  margin-bottom: 5px;
-}
-
-.AccordionIcon{
-  width: 30px;
-}
-
 .AccordionButton{
-  background-color: rgba(203, 213, 225, 0.603);
+  color: #fff;
+  background-color: #181c2eda;
   height: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.AccordionItem{
-  color: black;
-  width: 100%;
-  display: block;
+.span-info{
+  display: flex;
+  margin-left: 20px;
+  width: 300px;
+  align-items: center;
 }
 
-.AccordionItem h2{
-  display: flex;
+.span-data{
+  gap: 3px;
 }
 
-.AccordionBox{
+.div-buttons{
+  background-color: #181c2eda;
   display: flex;
-}
-
-.teste{
-  display: flex;
-  justify-content: space-between;
+  align-items: center;
 }
 
 .action{
@@ -132,59 +88,5 @@
   vertical-align: middle;
 }
 
-.btn-more{
-  margin: 1.5em 0;
-  padding:  .5em 1em;
-  height: 35px;
-  border:0;
-  border-radius: 5px;
-  background-color: #181c2e;
-  color: #FFF;
-  font-size: 1.1em;
-}
-
 @media screen and (max-width: 600px){
-  table{
-    border: 0;
-  }
-
-  table caption{
-    font-size: 1.3em;
-  }
-
-  table thead{
-    border:none;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-  }
-
-  table tr{
-    border-bottom: 3px solid #ddd;
-    display: block;
-    margin-bottom: .65em;
-  }
-
-  table td{
-    border-bottom: 1px solid #DDD;
-    display: block;
-    font-size: .8em;
-    text-align: right;
-  }
-
-  table td::before{
-    content: attr(data-label);
-    float: left;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
-  table td:last-child{
-    border-bottom: 0;
-  }
-
 }

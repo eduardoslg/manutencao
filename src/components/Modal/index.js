@@ -10,16 +10,16 @@ export default function Modal({conteudo, close}){
     <div className="modal">
       <div className="container">
 
-        <div className="container-buttons">
-        <button className="close" onClick={ close }>
-          <FiX size={23} color="#FFF" />
-          Voltar
-        </button>
+        <div className="containerButtons">
+          <button className="close" onClick={ close }>
+            <FiX size={23} color="#FFF" />
+            Voltar
+          </button>
 
-        <Link className="actionModal" style={{backgroundColor: '#F6a935' }} to={`/new/${conteudo.id}`} >
-          <FiEdit2 color="#FFF" size={17} />
-          Editar
-        </Link>
+          <Link className="actionModal" style={{backgroundColor: '#F6a935' }} to={`/new/${conteudo.id}`} >
+            <FiEdit2 color="#FFF" size={17} />
+            Editar
+          </Link>
         </div>
 
         <div>
@@ -44,11 +44,11 @@ export default function Modal({conteudo, close}){
           </div>
 
 
-          {conteudo.complemento !== '' && (
+          {conteudo.descricao !== '' && (
             <>
-              <h3 className="Descricao">Descrição</h3>
+              <h3 className="descricao">Descrição</h3>
               <p>
-                {conteudo.complemento}
+                {conteudo.descricao}
               </p>
             </>
           )}

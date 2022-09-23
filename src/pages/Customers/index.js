@@ -1,14 +1,20 @@
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import './customers.css';
 import Title from '../../components/Title';
 import Header from '../../components/Header';
 import firebase from '../../services/firebaseConnection';
+import { AuthContext } from '../../contexts/auth';
+
 import { FiUser } from 'react-icons/fi';
 
 import { toast } from 'react-toastify';
 
 export default function Customers(){
+  
+  const { user } = useContext(AuthContext);
+  const userRole = user.role;
+  
   const [nomeFantasia, setNomeFantasia] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [endereco, setEndereco] = useState('');
@@ -18,7 +24,8 @@ export default function Customers(){
   async function handleAdd(e){
     e.preventDefault();
     
-    if(nomeFantasia !== '' && cnpj !== '' && endereco !== ''){
+  if(userRole === 'admin'){
+      if(nomeFantasia !== '' && cnpj !== '' && endereco !== ''){
       await firebase.firestore().collection('customers')
       .add({
         nomeFantasia: nomeFantasia,
@@ -38,6 +45,9 @@ export default function Customers(){
     }else{
       toast.error('Preencha todos os campos!')
     }
+  }else{
+    toast.error('Usuário sem permissão!')
+  }
 
   }
 

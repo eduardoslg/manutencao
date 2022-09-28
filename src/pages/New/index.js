@@ -101,7 +101,7 @@ export default function New(){
         userName: user.nome
       })
       .then(()=>{
-        toast.success('Chamado Editado com sucesso!');
+        toast.success('Observação editada com sucesso!');
         setCustomerSelected(0);
         setDescricao('');
         setAssunto('');
@@ -132,7 +132,7 @@ export default function New(){
         userName: user.nome
       })
       .then(()=> {
-        toast.success('Chamado criado com sucesso!');
+        toast.success('Observação criada com sucesso!');
         setDescricao('');
         setAssunto('')
         history.push('/maintenance');
